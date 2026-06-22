@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "name": "Notebook",
+    "price": "2500,00"
+  },
+  {
+    "id": "2",
+    "name": "PC",
+    "price": "5500,00"
+  },
+  {
+    "id": "3",
+    "name": "Celular",
+    "price": "3500,00"
+  }
+]

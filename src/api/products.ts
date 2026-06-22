@@ -1,16 +1,27 @@
 // TODO: Implement a function to simulate fetching products from /api/products
 // This should return a promise that resolves to an array of product objects
-import mock_data from "./mock/mockdata.json"
+import mock_data from "../mock/mockdata.json";
+import type { Product } from "../types/Product";
 
-
-export function fetchProducts(shouldResolve) {
+export function getProducts(souldSucceed: boolean): Promise<Product[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (!shouldResolve) {
-      reject(new Error({status: 400, message: "Failed to fetch data!" })
+      if (souldSucceed) {
+        resolve(mock_data);
       }
-
-      resolve({status: 200, message: "Success fetching data!", data: mock_data })
-    }, 1500)
-  })
+      reject({ status: 400, message: "Error on fetch products" });
+    }, 5000);
+  });
 }
+
+// export function fetchProducts(shouldResolve) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (!shouldResolve) {
+//       reject(new Error({status: 400, message: "Failed to fetch data!" })
+//       }
+
+//       resolve({status: 200, message: "Success fetching data!", data: mock_data })
+//     }, 1500)
+//   })
+// }

@@ -1,33 +1,73 @@
-# react-market-challenge
-React Product List &amp; Cart Component Challenge
+# React + TypeScript + Vite
 
-## Welcome to the Fetchly React challenge!
-### Overview
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-You are tasked with building a React component that displays a list of products fetched from a mock API and allows users to add products to a cart. The UI should show the product list, enable adding/removing items from the cart, and display the cart's contents and total price.
+Currently, two official plugins are available:
 
-### Requirements
-* Fetch product data from a mock API endpoint (/api/products).
-* Display a list of products with their name, price, and an 'Add to Cart' button.
-* Implement a cart UI that shows added products, their quantities, and the total price.
-* Allow users to remove products from the cart.
-* Show loading and error states during data fetch.
-  
-### API Contract
-Endpoint: /api/products
-* Method: GET
-* Response: JSON array of products
-    * Each product: { id: string, name: string, price: number }
- 
-### Instructions
-1. Implement the logic to fetch products and display them in a list.
-2. Implement cart logic (add, remove, update quantity, calculate total).
-3. Show loading and error states appropriately.
-4. Organize your code for clarity and maintainability.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-### What to Submit
-* Complete the stubbed implementation files.
-* Complete the stubbed test files with appropriate test logic.
-* Do not include any actual API calls (simulate as needed).
+## React Compiler
 
-Do NOT include any solution code or examples in your submission.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

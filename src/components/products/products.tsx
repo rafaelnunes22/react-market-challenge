@@ -1,79 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { fetchProducts } from "../api/products";
+import {
+  useEffect,
+  useState,
+  type DetailedHTMLProps,
+  type HTMLAttributes,
+} from "react";
+import { type Product } from "../../types/Product";
+import { getProducts } from "../../api/products";
+import { useCartDispatch } from "../../contexts/productsContext";
 
-function ProductList() {
-  // TODO: Initialize state for products, loading, error, and cart
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [cart, setCart] = useState();
-  const [error, setError] = useState("");
-  
+const styleLi:
+  | (DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> &
+      React.CSSProperties)
+  | undefined = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 14,
+};
 
-  useEffect(async () => {
-    // TODO: Fetch product data from /api/products
-    // TODO: Handle loading and error states
-    const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
-    const [error, setError] = useState(null);
-
-  function clearData() {
-    setProducts([])
-    setCart([])
-    setError(null)
-  }
-
-    getData() {
-      try {
-        clearData();
-        setisLoading(true);
-        const data = await fetchProducts(true);
-        setProducts(data);
-      } catch (error) {
-        throw new Error(error.message)
-          setError(error.message)
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getData();
-  }, [fetchProducts]);
-
-  // TODO: Implement addToCart and removeFromCart handlers
-
-  function addToCart(product) {
-    const alreadyAdded = cart.find((item) => item.id === product.id);
-    
-    if (!!alreadyAdded) {
-      const updatedCart = cart.map((item) => {
-        if (item.id === product.id) {
-          item.quantity = item.quantity++;
-        }
-      })
-      setCart(updatedCart);
-    }
-  }
+function ListItem({ item }: { item: Product }) {
+  const cartDispatch: any = useCartDispatch();
 
   return (
-    <div>
-      { isLoading ? <span>Loading...</span> : null }
-      { error ? <span>Error: {error}</span> : null }
-      { !!products.length ? 
-        <ul>
-          { products.map((product) => (
-            <li key={product.id}>
-              <p>Name: {product.name}</p>
-              <p>Price: {String(product.price)}</p> 
-            <button onClick={() => addToCart(product)}>
-              Add to cart
-            </button>
-            </li>
-          ))}
-        </ul> : <span>There is no available product</span>
-      {/* TODO: Render loading, error, and product list UI */}
-      {/* TODO: Render cart UI with items and total price */}
-    </div>
+    <li key={item.id} style={styleLi}>
+      <div>{item.name}</div>
+      <div>{item.price}</div>
+      <button
+        onClick={() => {
+          if (cartDispatch) {
+            cartDispatch({
+              type: "added",
+              item: item,
+            });
+          }
+        }}
+      >
+        Add to cart
+      </button>
+    </li>
   );
 }
 
-export default ProductList;
+const styleUl:
+  | (DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> &
+      React.CSSProperties)
+  | undefined = {
+  display: "flex",
+  flexDirection: "row",
+  width: "100%",
+  gap: "30px",
+};
+
+export function ProductList() {
+  // TODO: Initialize state for products, loading, error, and cart
+  // TODO: Implement addToCart and removeFromCart handlers
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await getProducts(true);
+        setProducts(response);
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    }
+    fetchProducts();
+  }, []);
+  /* TODO: Render loading, error, and product list UI */
+  /* TODO: Render cart UI with items and total price */
+  return (
+    <div>
+      <center>Products</center>
+      <ul style={styleUl}>
+        {products.length
+          ? products.map((product) => <ListItem item={product} />)
+          : null}
+      </ul>
+    </div>
+  );
+}

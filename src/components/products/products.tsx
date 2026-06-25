@@ -54,14 +54,21 @@ export function ProductList() {
   // TODO: Initialize state for products, loading, error, and cart
   // TODO: Implement addToCart and removeFromCart handlers
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
       try {
+        setIsLoading(true);
+
         const response = await getProducts(true);
         setProducts(response);
       } catch (error: any) {
+        setError(error.message);
         throw new Error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchProducts();
@@ -71,11 +78,25 @@ export function ProductList() {
   return (
     <div>
       <center>Products</center>
-      <ul style={styleUl}>
-        {products.length
-          ? products.map((product) => <ListItem item={product} />)
-          : null}
-      </ul>
+      {!isLoading && !error ? (
+        <ul style={styleUl}>
+          {products.length
+            ? products.map((product) => (
+                <ListItem key={product.id} item={product} />
+              ))
+            : null}
+        </ul>
+      ) : null}
+      {isLoading ? (
+        <center>
+          <strong>Loading...</strong>
+        </center>
+      ) : null}
+      {error ? (
+        <center>
+          <strong>{error}</strong>
+        </center>
+      ) : null}
     </div>
   );
 }

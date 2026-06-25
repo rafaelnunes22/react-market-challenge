@@ -3,7 +3,7 @@ import React, {
   type DetailedHTMLProps,
   type HTMLAttributes,
 } from "react";
-import { useCart } from "../../contexts/productsContext";
+import { useCart, useCartDispatch } from "../../contexts/productsContext";
 
 function formatTotalPrice(price: number, quantity: number): string {
   return (price * quantity).toFixed(2);
@@ -21,6 +21,7 @@ const style:
 
 export function CartComponent() {
   const cart = useCart();
+  const cartDispatch: any = useCartDispatch();
   // TODO: Render cart items, their quantities, and total price
   // TODO: Call onRemove when removing an item from the cart
 
@@ -45,7 +46,18 @@ export function CartComponent() {
                 <div>{name}</div>
                 <div>{quantity}</div>
                 <div>{formatTotalPrice(price, quantity)}</div>
-                <button>Remove from cart</button>
+                <button
+                  onClick={() => {
+                    if (cartDispatch) {
+                      cartDispatch({
+                        type: "remove",
+                        id,
+                      });
+                    }
+                  }}
+                >
+                  Remove from cart
+                </button>
               </li>
             ))
           : null}

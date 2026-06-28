@@ -9,7 +9,7 @@ export function getProducts(souldSucceed: boolean): Promise<Product[]> {
       if (souldSucceed) {
         resolve(mock_data);
       }
-      reject({ status: 400, message: "Error on fetch products" });
+      reject({ status: 400, message: "Failed to fetch products" });
     }, 1000);
   });
 }

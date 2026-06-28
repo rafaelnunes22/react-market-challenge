@@ -35,7 +35,8 @@ function cartReducer(cart: any, action: any) {
       const newCart = cart.map((item: CartItem) => {
         if (item.id === action.item.id) {
           itemExists = true;
-          return { ...item, quantity: item.quantity++ };
+
+          return { ...item, quantity: item.quantity + 1 };
         }
         return item;
       });
@@ -47,19 +48,18 @@ function cartReducer(cart: any, action: any) {
       return newCart;
     }
     case "remove": {
-      const newCart = cart.map((item: CartItem, index: number): CartItem => {
-        if (item.id === action.id) {
-          if (item.quantity > 1) {
-            return { ...item, quantity: item.quantity-- };
-          } else {
-            delete cart[index];
+      return cart
+        .map((item: CartItem) => {
+          if (item.id === action.id) {
+            return {
+              ...item,
+              quantity: item.quantity - 1,
+            };
           }
-        }
 
-        return item;
-      });
-
-      return newCart;
+          return item;
+        })
+        .filter((item: CartItem) => item.quantity > 0);
     }
   }
 }

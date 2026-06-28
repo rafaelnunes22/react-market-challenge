@@ -21,7 +21,7 @@ function ListItem({ item }: { item: Product }) {
   const cartDispatch: any = useCartDispatch();
 
   return (
-    <li key={item.id} style={styleLi}>
+    <li key={item.id} style={styleLi} data-testid={`product-${item.name}`}>
       <div>{item.name}</div>
       <div>{item.price}</div>
       <button
@@ -66,7 +66,6 @@ export function ProductList() {
         setProducts(response);
       } catch (error: any) {
         setError(error.message);
-        throw new Error(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +79,7 @@ export function ProductList() {
       <center>Products</center>
       {!isLoading && !error ? (
         <ul style={styleUl}>
-          {products.length
+          {products?.length
             ? products.map((product) => (
                 <ListItem key={product.id} item={product} />
               ))

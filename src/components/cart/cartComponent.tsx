@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  type DetailedHTMLProps,
-  type HTMLAttributes,
-} from "react";
+import React, { type DetailedHTMLProps, type HTMLAttributes } from "react";
 import { useCart, useCartDispatch } from "../../contexts/productsContext";
 
 function formatTotalPrice(price: number, quantity: number): string {
@@ -24,17 +20,13 @@ export function CartComponent() {
   const cartDispatch: any = useCartDispatch();
   // TODO: Render cart items, their quantities, and total price
   // TODO: Call onRemove when removing an item from the cart
-
-  useEffect(() => {
-    console.log(cart);
-  });
-
+  console.log(cart);
   return (
     <div>
       <center>Cart</center>
       <ul style={style}>
         {cart?.length
-          ? cart.map(({ name, price, id, quantity }) => (
+          ? cart?.map(({ name, price, id, quantity }) => (
               <li
                 style={{
                   display: "flex",
@@ -42,6 +34,7 @@ export function CartComponent() {
                   gap: 14,
                 }}
                 key={id}
+                data-testid={`cart-item-${name}`}
               >
                 <div>{name}</div>
                 <div>{quantity}</div>

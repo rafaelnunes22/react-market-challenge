@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Vitest + jsdom + React Testing Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an application developed to demonstrate technical proficiency in building and testing a React application.
 
-Currently, two official plugins are available:
+## How to run it?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Run `pnpm dev` to run the application.
 
-## React Compiler
+## How to test it?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Run `pnpm vitest` to run the unit tests.
 
-## Expanding the ESLint configuration
+## Aplication stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### pnpm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- I choose `pnpm` as the package manager because its fast and disk-efficient. Instead of duplication dependencies in every project's `node_modules` folder, it downloads packages to a single global store and creates hard links to them.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Vite
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `Vite` is a fast frontend build tool that makes the development environment very fast and optimize the code for production.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### React + Typescritp
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- I didn't choose it, it's the required lib of the challenge. But it's curently my main stack so I can talk a little bit about it.
+  `React` is one of the most used technologies of the world, it's very popular because of its ecosystem(community, libraries, tutorials and job opportunities), and versatility on creating applications as SPA's.
+- Talking about `Typescript`, it's an open-source, statically typed superset of `JavaScript` developed by Microsoft that makes our loved `JavaScript` get typed strongly improving the code development experience.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Vitest + jsdom + React Testing Library
+
+- `Vitest` was created to make testing just work for `Vite` apps. By building on top of `Vite`, `Vitest` natively understands your `Vite` config and is able to reuse the same resolve and transform pipelines.
+- To simulate a browser and create an environment to test the application I choose `jsdom`, that is a library recommended by the `vitest` documentation.
+- Testing `JavaScript` programs in simulated environments such as `jsdom` or `happy-dom` has simplified the test setup and provided an easy-to-use API, making them suitable for many projects and increasing confidence in test results.
+- The last one but no less important, `React Testing Library` that was not a choice as well but its the most complete and common tool for testing `React` applications, providing tons of functions for manipulate and get `TSX` elements.
